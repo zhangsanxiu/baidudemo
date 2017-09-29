@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zwh.baidudemo.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/networkLocation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+    <TextView
+        android:id="@+id/viewLocation"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:hint="now location"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        />
+    <Button
+        android:id="@+id/getLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="get Location"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+        <EditText
+            android:id="@+id/latitude"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:inputType="numberDecimal"
+            android:hint="input lat:"/>
+        <EditText
+            android:id="@+id/longitude"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:inputType="numberDecimal"
+            android:hint="input lon:"/>
+        <TextView
+            android:id="@+id/locationResult"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="result:" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/searchLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="search location"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <EditText
+            android:id="@+id/cityName"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="input city and address with space:"/>
+        <TextView
+            android:id="@+id/cityResult"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="result:" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/searchCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="search location"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/gpsLocation"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/viewGpsLocation"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"/>
+        <Button
+            android:id="@+id/getGpsLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Get GPS Location"/>
+        <Button
+            android:id="@+id/recordeData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="recorde data"
+            android:layout_gravity="center"/>
+        <Button
+            android:id="@+id/countData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Count Data"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/errorView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/errorText"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:gravity="center|left"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+            />
+        <Button
+            android:id="@+id/testButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:onClick="onClick"
+            android:text="test button"/>
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            >
+
+        </com.baidu.mapapi.map.MapView>
+    </LinearLayout>
+</LinearLayout>
