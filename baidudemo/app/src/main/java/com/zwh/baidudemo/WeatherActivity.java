@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -35,6 +36,7 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (inputCity.getText().toString() != null){
+                    Log.d("WeatherActivity","begin request weather infos of " + inputCity.getText().toString());
                     getJSON(inputCity.getText().toString());
                 }
             }
@@ -56,34 +58,32 @@ public class WeatherActivity extends AppCompatActivity {
 
             @Override
             protected Void doInBackground(Void... params) {
+                HttpURLConnection connection = null;
                 try {
-                    URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q="+city+"&APPID=ea574594b9d36ab688642d5fbeab847e&lang=zh");
+                    URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q="+city+"&APPID=f2b7d8d2dc87226713e2d191c8e08851&lang=zh");
+                    connection = (HttpURLConnection) url.openConnection();
 
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
+                    connection.setRequestMethod("GET");
+                    connection.setConnectTimeout(8000);
                     BufferedReader reader =
                             new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
                     StringBuffer json = new StringBuffer(1024);
                     String tmp = "";
-
-                    while((tmp = reader.readLine()) != null)
+                    while((tmp = reader.readLine()) != null) {
                         json.append(tmp).append("\n");
+                        Log.d("WeatherActivity",tmp);
+                    }
                     reader.close();
 
                     data = new JSONObject(json.toString());
-
-                    if(data.getInt("cod") != 200) {
-                        System.out.println("Cancelled");
-                        return null;
-                    }
-
-
+                    Log.d("WeatherActivity",data.toString(4));
 
                 } catch (Exception e) {
-
-                    System.out.println("Exception "+ e.getMessage());
-                    return null;
+                    Log.d("WeatherActivity",e.toString());
+                } finally {
+                    if(connection!=null){
+                        connection.disconnect();
+                    }
                 }
 
                 return null;
@@ -93,11 +93,11 @@ public class WeatherActivity extends AppCompatActivity {
             protected void onPostExecute(Void Void) {
                 if(data!=null){
                     try {
-                        Log.d("my weather received",data.toString(4));
+                        Log.d("WeatherActivity",data.toString(4));
                     }catch (JSONException e){
                         e.printStackTrace();
                     }
-                    //updateWeather();
+                    updateWeather();
                 }
 
             }

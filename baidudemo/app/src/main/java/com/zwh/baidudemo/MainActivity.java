@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String[] PERMISSION_REQUIRED = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.READ_PHONE_STATE};
 
-
+    private String mLocationDetails = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,WeatherActivity.class));
+                updateLocation();
             }
         });
         //getLocation.setVisibility(View.GONE);
@@ -142,7 +142,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mInit =1;
     }
 
-
+    private void updateLocation(){
+        if(mLocationDetails != null){
+            viewLocation.setText(mLocationDetails);
+        }
+    }
 
     public boolean verifyStoragePermissions() {
         int permission_result = 0;
@@ -243,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             showErrorMessage("cityNameText.getText() == null");
             return;
         }
-        cityResult.setText("Requesting...");
+        locationResult.setText("Requesting...");
         String latitude = latitudeText.getText().toString();
         String longitude = longitudeText.getText().toString();
         mGeoCoder = GeoCoder.newInstance();
@@ -291,27 +295,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this,"init",Toast.LENGTH_LONG).show();
             }
             else if (intent.getAction() == BroadcastUtil.LOCATIONUPDATE){
-                String locationDetails = intent.getStringExtra(BroadcastUtil.LOCATIONDETAILS);
+                mLocationDetails = intent.getStringExtra(BroadcastUtil.LOCATIONDETAILS);
                 int locationType = intent.getIntExtra(BroadcastUtil.LOCATIONTYPE,0);
                 Log.e("zhangwenhao","onReceive broadcast " + locationType );
-                Log.e("zhangwenhao","onReceive broadcast " + locationDetails );
+                Log.e("zhangwenhao","onReceive broadcast " + mLocationDetails );
 
-                if (locationDetails != null && locationType != 0){
+                if (mLocationDetails != null && locationType != 0){
                     if (locationType == BDLocation.TypeNetWorkLocation){
                         gpsLocationView.setVisibility(View.GONE);
                         errorView.setVisibility(View.GONE);
                         networkLocationView.setVisibility(View.VISIBLE);
-                        viewLocation.setText(locationDetails);
+                        viewLocation.setText(mLocationDetails);
                     }else if(locationType == BDLocation.TypeGpsLocation){
                         networkLocationView.setVisibility(View.GONE);
                         errorView.setVisibility(View.GONE);
                         gpsLocationView.setVisibility(View.VISIBLE);
-                        viewGpsLocation.setText(locationDetails);
+                        viewGpsLocation.setText(mLocationDetails);
                     }else{
                         networkLocationView.setVisibility(View.GONE);
                         gpsLocationView.setVisibility(View.GONE);
                         errorView.setVisibility(View.VISIBLE);
-                        errorText.setText(locationDetails);
+                        errorText.setText(mLocationDetails);
                     }
                 }
             }
@@ -339,19 +343,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
-
-    public class MyThread implements Runnable{
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(1000);
-
-            }catch(InterruptedException e){
-                e.printStackTrace();
-            }
-        }
-    }
-
 
     @Override
     protected void onDestroy() {

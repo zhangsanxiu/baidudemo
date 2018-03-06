@@ -59,7 +59,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="wrap_content">
         <EditText
             android:id="@+id/cityName"
             android:layout_width="match_parent"
@@ -76,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="search location"/>
+        android:text="search city"/>
 
     </LinearLayout>
     <LinearLayout
